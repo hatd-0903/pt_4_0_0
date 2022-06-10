@@ -3,6 +3,8 @@ class Progress < ActiveRecord::Base
   before_validation :add_custom_field_pt
 
   def add_custom_field_pt
+    @changed_attributes ||= {}
+
     @changed_attributes.merge! cp_change_logs: nil
   end
 

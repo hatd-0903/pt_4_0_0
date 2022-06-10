@@ -1,0 +1,23 @@
+version: "2"
+services:
+  db:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --init-connect='SET NAMES UTF8; SET CHARACTER SET utf8mb4;'
+    ports:
+      - "3407:3307"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  web:
+    image: enfit/pt:4.0.0
+    # command: bundle exec rails s -p 3000 -b "0.0.0.0"
+    environment:
+      - EMAIL_SERVICE_PORT=1025
+      - EMAIL_SERVICE_ADDRESS=mailcatcher
+      - LANG=C.UTF-8
+    tty: true
+    volumes:
+      - .:/pt_4_0_0
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
